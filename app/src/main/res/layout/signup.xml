@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -45,23 +44,29 @@
         android:background="@color/White"
         android:inputType="textPassword" />
 
+    <TextView
+        android:id="@+id/txtemail"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/password"
+        android:textColor="@color/White"
+        android:text="@string/Email"/>
+
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtemail"
+        android:background="@color/White"
+        android:inputType="textEmailAddress"/>
+
     <Button
-        android:id="@+id/login"
+        android:id="@+id/signup"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@color/BuddyBlue"
-        android:layout_below="@+id/password"
-        android:text="@string/LoginBtn" />
+        android:layout_below="@+id/email"
+        android:text="@string/SignupBtn" />
 
-    <TextView
-        android:id="@+id/signuptxt"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/White"
-        android:text="@string/SignupLink"
-        android:layout_below="@+id/login"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="36dp" />
 
 </RelativeLayout>

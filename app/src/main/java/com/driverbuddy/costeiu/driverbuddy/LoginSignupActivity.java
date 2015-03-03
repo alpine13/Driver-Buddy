@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.LogInCallback;
@@ -20,11 +21,13 @@ public class LoginSignupActivity extends Activity {
 
     // Declare Variables
     Button loginbutton;
-    Button signup;
     String usernametxt;
     String passwordtxt;
+    TextView signup;
     EditText password;
     EditText username;
+
+
 
     /** Called when the activity is first created. */
     public void onCreate(Bundle savedInstanceState) {
@@ -37,7 +40,19 @@ public class LoginSignupActivity extends Activity {
 
         // Locate Buttons in main.xml
         loginbutton = (Button) findViewById(R.id.login);
-        signup = (Button) findViewById(R.id.signup);
+
+        // Locate signup TextView in main.xml
+        signup = (TextView)findViewById(R.id.signuptxt);
+
+        // Signup Click Listener
+        signup.setOnClickListener(new OnClickListener(){
+
+            public void onClick(View arg0) {
+                Intent intent = new Intent(LoginSignupActivity.this, SignupActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         // Login Button Click Listener
         loginbutton.setOnClickListener(new OnClickListener() {
@@ -69,43 +84,6 @@ public class LoginSignupActivity extends Activity {
                                 }
                             }
                         });
-            }
-        });
-        // Sign up Button Click Listener
-        signup.setOnClickListener(new OnClickListener() {
-
-            public void onClick(View arg0) {
-                // Retrieve the text entered from the EditText
-                usernametxt = username.getText().toString();
-                passwordtxt = password.getText().toString();
-
-                // Force user to fill up the form
-                if (usernametxt.equals("") && passwordtxt.equals("")) {
-                    Toast.makeText(getApplicationContext(),
-                            "Please complete the sign up form",
-                            Toast.LENGTH_LONG).show();
-
-                } else {
-                    // Save new user data into Parse.com Data Storage
-                    ParseUser user = new ParseUser();
-                    user.setUsername(usernametxt);
-                    user.setPassword(passwordtxt);
-                    user.signUpInBackground(new SignUpCallback() {
-                        public void done(ParseException e) {
-                            if (e == null) {
-                                // Show a simple Toast message upon successful registration
-                                Toast.makeText(getApplicationContext(),
-                                        "Successfully Signed up, please log in.",
-                                        Toast.LENGTH_LONG).show();
-                            } else {
-                                Toast.makeText(getApplicationContext(),
-                                        "Sign up Error", Toast.LENGTH_LONG)
-                                        .show();
-                            }
-                        }
-                    });
-                }
-
             }
         });
 
