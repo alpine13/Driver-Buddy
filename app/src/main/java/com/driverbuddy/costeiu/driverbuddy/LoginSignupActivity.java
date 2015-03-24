@@ -10,10 +10,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.driverbuddy.costeiu.driverbuddy.slidingmenu.controler.SlideMenuActivity;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
-import com.parse.SignUpCallback;
+
 /**
  * Created by Costeiu on 3/1/2015.
  */
@@ -67,10 +68,10 @@ public class LoginSignupActivity extends Activity {
                         new LogInCallback() {
                             public void done(ParseUser user, ParseException e) {
                                 if (user != null) {
-                                    // If user exist and authenticated, send user to Welcome.class
+                                    // If user exist and authenticated, send user to SlideMenuActivity.class
                                     Intent intent = new Intent(
                                             LoginSignupActivity.this,
-                                            Welcome.class);
+                                            SlideMenuActivity.class);
                                     startActivity(intent);
                                     Toast.makeText(getApplicationContext(),
                                             "Successfully Logged in",

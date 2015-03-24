@@ -10,7 +10,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/imageView"
-        android:src="@drawable/buddy"/>
+        android:src="@mipmap/buddy"/>
 
     <TextView
         android:id="@+id/txtusername"
@@ -26,6 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/txtusername"
         android:background="@color/White"
+        android:textColor="@color/Black"
         android:inputType="text" />
 
     <TextView
@@ -42,6 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/txtpassword"
         android:background="@color/White"
+        android:textColor="@color/Black"
         android:inputType="textPassword" />
 
     <TextView
@@ -58,6 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/txtemail"
         android:background="@color/White"
+        android:textColor="@color/Black"
         android:inputType="textEmailAddress"/>
 
     <Button

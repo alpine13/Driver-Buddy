@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 21
-    buildToolsVersion "21.1.2"
+    buildToolsVersion '22.0.0'
 
     defaultConfig {
         applicationId "com.driverbuddy.costeiu.driverbuddy"
         minSdkVersion 15
-        targetSdkVersion 21
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
     }
@@ -21,10 +21,16 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:21.0.3'
+    compile 'com.android.support:appcompat-v7:22.0.0'
     compile files('libs/Parse-1.8.2.jar')
 }
 dependencies {
     compile 'com.parse.bolts:bolts-android:1.+'
     compile fileTree(dir: 'libs', include: 'Parse-*.jar')
+}
+dependencies {
+    compile 'com.google.android.gms:play-services:6.5.87'
+}
+dependencies {
+    compile 'com.google.maps.android:android-maps-utils:0.3+'
 }

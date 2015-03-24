@@ -1,11 +1,10 @@
 package com.driverbuddy.costeiu.driverbuddy;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.app.Activity;
-import android.view.Menu;
 import android.content.Intent;
-import android.view.MenuItem;
+
+import com.driverbuddy.costeiu.driverbuddy.slidingmenu.controler.SlideMenuActivity;
 import com.parse.ParseAnonymousUtils;
 import com.parse.ParseUser;
 
@@ -26,8 +25,8 @@ public class MainActivity extends Activity {
             //If current user is NOt anonymous user
             ParseUser currentUser = ParseUser.getCurrentUser();
             if (currentUser != null) {
-                // Send user in Welcome.class
-                Intent intent = new Intent(MainActivity.this, Welcome.class);
+                // Send user in SlideMenuActivity.class
+                Intent intent = new Intent(MainActivity.this, SlideMenuActivity.class);
                 startActivity(intent);
                 finish();
             } else {
