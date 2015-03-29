@@ -3,6 +3,7 @@ package com.driverbuddy.costeiu.driverbuddy;
 import android.app.Application;
 
 import com.driverbuddy.costeiu.driverbuddy.database.model.GasStationItem;
+import com.driverbuddy.costeiu.driverbuddy.database.model.PositionItem;
 import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseObject;
@@ -18,6 +19,7 @@ public class ParseAplication extends Application {
         super.onCreate();
 
         ParseObject.registerSubclass(GasStationItem.class);
+        ParseObject.registerSubclass(PositionItem.class);
 
         Parse.initialize(this, "DHjp6GVHEuOOuOiLvErPejFnDz0p6OyAKBCcbkk0", "2ws1GeTKP88weD98xNiYyFqIHpY0D0q0mySCKNWd");
 

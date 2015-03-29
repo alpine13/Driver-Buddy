@@ -60,6 +60,7 @@ public class GasStationItem extends ParseObject  implements ClusterItem{
         put("Name", name);
     }
 
+
     @Override
     public LatLng getPosition(){
         return mPosition;

@@ -2,14 +2,17 @@ package com.driverbuddy.costeiu.driverbuddy.slidingmenu.view;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.driverbuddy.costeiu.driverbuddy.database.model.GasStationItem;
 import com.driverbuddy.costeiu.driverbuddy.R;
+import com.driverbuddy.costeiu.driverbuddy.database.model.PositionItem;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -20,7 +23,9 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,11 +38,31 @@ public class GasStationFragment extends Fragment {
 
     private static final String TAG = GasStationFragment.class.getSimpleName();
     private GoogleMap mMap;
+    private LocationManager mLocationManager = null;
+    private Location mCurrentLocation;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setRetainInstance(true);
         super.onCreate(savedInstanceState);
+
+        mLocationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        if (mLocationManager == null) {
+            return;
+        }
+        mCurrentLocation = mLocationManager
+                .getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if (mCurrentLocation == null)
+            mCurrentLocation = mLocationManager
+                    .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        if (mCurrentLocation != null) {
+            double lat = mCurrentLocation.getLatitude();
+            double lng = mCurrentLocation.getLongitude();
+
+            Log.d(TAG,this + "onCreate()" + lat);
+            Log.d(TAG,this + "onCreate()" + lng);
+        }
+
         Log.d(TAG, this + ": onCreate()");
     }
 
@@ -61,9 +86,9 @@ public class GasStationFragment extends Fragment {
         Log.d(TAG, this + ": onCreateView()");
         View rootView = inflater.inflate(R.layout.fragment_gas_station, container, false);
 
-        // setContentView(R.layout.map_layout);
         mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
                 .getMap();
+
         addMarkers();
 
         return rootView;
@@ -136,11 +161,15 @@ public class GasStationFragment extends Fragment {
 
     private void addMarkers(){
 
-        ParseQuery<GasStationItem> query = ParseQuery.getQuery(GasStationItem.class);
-        query.setLimit(1000);
-        query.findInBackground(new FindCallback<GasStationItem>() {
+        ParseGeoPoint userLocation = new ParseGeoPoint(mCurrentLocation.getLatitude(),mCurrentLocation.getLongitude());
+        final LatLng cameraFocusLocation = new LatLng(mCurrentLocation.getLatitude(),mCurrentLocation.getLongitude());
+
+        ParseQuery<PositionItem> query = ParseQuery.getQuery(PositionItem.class);
+        query.whereNear("Location", userLocation);
+        query.setLimit(100);
+        query.findInBackground(new FindCallback<PositionItem>() {
             @Override
-            public void done(List<GasStationItem> gasStationItems, ParseException e) {
+            public void done(List<PositionItem> gasStationItems, ParseException e) {
                 if (e == null) {
 
                     Log.d("THE OBJECT", "" + gasStationItems.size());
@@ -149,19 +178,18 @@ public class GasStationFragment extends Fragment {
 
 
                     for (int i=0; i< gasStationItems.size(); i++){
-                        GasStationItem gasStationItem = gasStationItems.get(i);
-                        LatLng latLng = new LatLng((Double.parseDouble(gasStationItem.getLatitude())), Double.parseDouble(gasStationItem.getLongitude()));
+                        PositionItem gasStationItem = gasStationItems.get(i);
+                        LatLng latLng = new LatLng(gasStationItem.getLocation().getLatitude(),gasStationItem.getLocation().getLongitude());
 
                         String gasStationName = gasStationItem.getName();
                         BitmapDescriptor bitmapMarker = customizeMarkers(gasStationName);
 
                         mMarkers.add(mMap.addMarker(new MarkerOptions().position(latLng)
-                                .title("Hamburg")
                                 .icon(bitmapMarker)));
 
 
-                        // Move the camera instantly to hamburg with a zoom of 15.
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 9));
+                        // Move the camera instantly to curent location with a zoom of 9.
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cameraFocusLocation, 9));
 
                     }
 
